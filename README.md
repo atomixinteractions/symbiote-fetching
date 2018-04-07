@@ -3,3 +3,5 @@
 Reduce boilerplate in async action creators.
 
 ## Usage
+
+See in lib/index.js under `@example` JSDoc section
