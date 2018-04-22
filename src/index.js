@@ -85,9 +85,23 @@ const handleFetching = (actions, fetcher) => (
   }
 )
 
+const handleFetchingF = (actions, runFn) => (
+  async (dispatch, getState, extra) => {
+    try {
+      dispatch(actions.start())
+      await runFn(dispatch, getState, extra)
+      dispatch(actions.finish())
+    }
+    catch (error) {
+      dispatch(actions.fail(error))
+    }
+  }
+)
+
 module.exports = {
   fetchStatus,
   initialFetching,
   createFetching,
   handleFetching,
+  handleFetchingF,
 }
