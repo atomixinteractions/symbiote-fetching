@@ -6,7 +6,7 @@ const fetchStatus = {
   ready: 2,
 }
 
-const propFetching = 'fetching'
+const propStatus = 'status'
 const propError = 'error'
 
 /**
@@ -16,7 +16,7 @@ const propError = 'error'
  * }
  */
 const initialFetching = {
-  [propFetching]: fetchStatus.initial,
+  [propStatus]: fetchStatus.initial,
   [propError]: null,
 }
 
@@ -29,15 +29,15 @@ const initialFetching = {
 const createFetching = (stateProperty) => ({
   start: (state) => ({
     ...state,
-    [stateProperty]: { [propFetching]: fetchStatus.loading, [propError]: null },
+    [stateProperty]: { [propStatus]: fetchStatus.loading, [propError]: null },
   }),
   finish: (state) => ({
     ...state,
-    [stateProperty]: { [propFetching]: fetchStatus.ready, [propError]: null },
+    [stateProperty]: { [propStatus]: fetchStatus.ready, [propError]: null },
   }),
   fail: (state, error) => ({
     ...state,
-    [stateProperty]: { [propFetching]: fetchStatus.failed, [propError]: error },
+    [stateProperty]: { [propStatus]: fetchStatus.failed, [propError]: error },
   }),
 })
 
