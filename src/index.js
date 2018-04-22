@@ -21,6 +21,8 @@ const initialFetching = {
 }
 
 /**
+ * @param {string} stateProperty
+ * @return {{ start: Function, finish: Function, fail: Function }}
  * @example
  * createSymbiote(initialState, {
  *   fetching: createFetching('status'),
@@ -42,6 +44,13 @@ const createFetching = (stateProperty) => ({
 })
 
 /**
+ * @typedef {Object} Action
+ * @prop {string} type
+ */
+
+/**
+ * @param {{ start: () => Action, finish: () => Action, fail: (error: Error) => Action }} actions
+ * @param {{ before?: () => Promise<any>, run: () => Promise<any>, fail?: () => void }} fetcher
  * @example
  * export const fetchData = (id) => handleFetching(actions.fetching, {
  *   async run(dispatch, getState, { api }) {
