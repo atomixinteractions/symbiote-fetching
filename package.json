@@ -3,9 +3,12 @@
   "version": "0.1.1",
   "description": "Reduce boilerplate with fetch actions",
   "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "test": "eslint . && nyc ava",
     "coverage": "NODE_ENV=test nyc report --reporter=text-lcov",
+    "build": "babel ./src -d ./lib",
+    "prepublish": "npm run build",
     "report": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -23,6 +26,10 @@
     "reducer",
     "symbiote"
   ],
+  "files": [
+    "lib",
+    "src"
+  ],
   "author": "Sergey Sova <mail@sergeysova.com> (https://sergeysova.com/)",
   "license": "MIT",
   "bugs": {
@@ -35,6 +42,10 @@
   "devDependencies": {
     "@atomix/eslint-config": "^6.4.0",
     "ava": "^0.25.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.10.0",

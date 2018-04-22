@@ -1,6 +1,6 @@
 import test from 'ava'
 import { createSymbiote } from 'redux-symbiote'
-import { createFetching, fetchStatus, handleFetching, initialFetching } from '../lib/index'
+import { createFetching, fetchStatus, handleFetching, initialFetching } from '../src/index'
 
 
 test('fetching status different', (t) => {
