@@ -69,7 +69,9 @@ const handleFetching = (actions, fetcher) => (
       if (fetcher.fail) {
         fetcher.fail(error, dispatch, getState, extra)
       }
-      dispatch(actions.fail(error))
+      else {
+        dispatch(actions.fail(error))
+      }
     }
   }
 )
