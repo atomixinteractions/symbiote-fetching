@@ -5,4 +5,6 @@ Reduce boilerplate in async action creators. Should be used with [`redux-symbiot
 
 ## Usage
 
-See in lib/index.js under `@example` JSDoc section
+See in lib/index.js under `@example` JSDoc section and in Releases section.
+
+> Warning! That library is unstable. Use in production with caution!
