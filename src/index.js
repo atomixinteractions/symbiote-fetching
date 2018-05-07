@@ -89,11 +89,14 @@ const handleFetchingF = (actions, runFn) => (
   async (dispatch, getState, extra) => {
     try {
       dispatch(actions.start())
-      await runFn(dispatch, getState, extra)
+      const result = await runFn(dispatch, getState, extra)
+
       dispatch(actions.finish())
+      return result
     }
     catch (error) {
       dispatch(actions.fail(error))
+      return undefined
     }
   }
 )
