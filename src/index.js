@@ -71,8 +71,10 @@ const handleFetching = (actions, fetcher) => (
     }
 
     try {
-      await fetcher.run(dispatch, getState, extra, beforeResult)
+      const result = await fetcher.run(dispatch, getState, extra, beforeResult)
+
       dispatch(actions.finish())
+      return result
     }
     catch (error) {
       if (fetcher.fail) {
@@ -81,6 +83,7 @@ const handleFetching = (actions, fetcher) => (
       else {
         dispatch(actions.fail(error))
       }
+      return undefined
     }
   }
 )
