@@ -51,5 +51,8 @@
     "eslint-plugin-import": "^2.10.0",
     "nyc": "^11.6.0",
     "redux-symbiote": "^2.0.3"
+  },
+  "dependencies": {
+    "deprecated": "0.0.2"
   }
 }
