@@ -50,40 +50,51 @@ const createFetching = (stateProperty) => ({
 
 /**
  * @param {{ start: () => Action, finish: () => Action, fail: (error: Error) => Action }} actions
- * @param {{ before?: () => Promise<any>, run: () => Promise<any>, fail?: () => void }} fetcher
+ * @param {{ before?: Function, run: Function, fail?: Function, noThrow: boolean }} fetcherObject
  * @example
  * export const fetchData = (id) => handleFetching(actions.fetching, {
+ *   noThrow: true,
+ *   prepareError: (error) => error.message,
+ *   async before(dispatch) {
+ *     return await dispatch(someEffect())
+ *   },
  *   async run(dispatch, getState, { api }) {
  *     const result = await api.get(`/data/${id}`)
- *
+ *s
  *     dispatch(actions.setData(result.data))
- *   }
+ *   },
  * })
  */
-const handleFetching = (actions, fetcher) => (
+const handleFetching = (actions, fetcherObject) => (
   async (dispatch, getState, extra) => {
     let beforeResult
 
     dispatch(actions.start())
 
-    if (fetcher.before) {
-      beforeResult = await fetcher.before(dispatch, getState, extra)
+    if (fetcherObject.before) {
+      beforeResult = await fetcherObject.before(dispatch, getState, extra)
     }
 
     try {
-      const result = await fetcher.run(dispatch, getState, extra, beforeResult)
+      const result = await fetcherObject.run(dispatch, getState, extra, beforeResult)
 
       dispatch(actions.finish())
       return result
     }
     catch (error) {
-      if (fetcher.fail) {
-        fetcher.fail(error, dispatch, getState, extra)
+      if (fetcherObject.fail) {
+        fetcherObject.fail(error, dispatch, getState, extra, beforeResult)
       }
-      else {
-        dispatch(actions.fail(error))
+
+      dispatch(actions.fail(fetcherObject.prepareError
+        ? fetcherObject.prepareError(error)
+        : error))
+
+      if (fetcherObject.noThrow) {
+        return undefined
       }
-      return undefined
+
+      throw error
     }
   }
 )
