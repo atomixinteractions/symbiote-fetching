@@ -1,4 +1,4 @@
-const { fetchStatus } = require('./status')
+const { fetchStatus, isFailed, isInitial, isLoading, isReady } = require('./status')
 const { createSymbioteFetcher } = require('./advanced')
 
 // TODO: remove deprecated handleFetchingF
@@ -14,4 +14,8 @@ module.exports = {
   handleFetching,
   handleFetchingF,
   handleFnFetching,
+  isReady,
+  isFailed,
+  isInitial,
+  isLoading,
 }
