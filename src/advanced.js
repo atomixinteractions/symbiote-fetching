@@ -1,14 +1,15 @@
-const deprecate = require('deprecated')
-const { fetchStatus } = require('./status')
-
+const deprecate = require("deprecated")
+const { fetchStatus } = require("./status")
 
 /**
  * @typedef {Object} Action
  * @prop {string} type
  */
 
-
-function createSymbioteFetcher({ propStatus = 'status', propError = 'error' } = {}) {
+function createSymbioteFetcher({
+  propStatus = "status",
+  propError = "error",
+} = {}) {
   /**
    * @example
    * const initialState = {
@@ -60,60 +61,71 @@ function createSymbioteFetcher({ propStatus = 'status', propError = 'error' } = 
    *   },
    * })
    */
-  const handleFetching = (actions, fetcherObject) => (
-    async (dispatch, getState, extra) => {
-      let beforeResult
+  const handleFetching = (actions, fetcherObject) => async (
+    dispatch,
+    getState,
+    extra,
+  ) => {
+    let beforeResult
 
-      dispatch(actions.start())
+    dispatch(actions.start())
 
-      if (fetcherObject.before) {
-        beforeResult = await fetcherObject.before(dispatch, getState, extra)
-      }
-
-      try {
-        const result = await fetcherObject.run(dispatch, getState, extra, beforeResult)
-
-        dispatch(actions.finish())
-        return result
-      }
-      catch (error) {
-        if (fetcherObject.fail) {
-          fetcherObject.fail(error, dispatch, getState, extra, beforeResult)
-        }
-
-        dispatch(actions.fail(fetcherObject.prepareError
-          ? fetcherObject.prepareError(error)
-          : error))
-
-        if (fetcherObject.noThrow) {
-          return undefined
-        }
-
-        throw error
-      }
+    if (fetcherObject.before) {
+      beforeResult = await fetcherObject.before(dispatch, getState, extra)
     }
-  )
 
-  const handleFnFetching = (actions, runFn) => (
-    async (dispatch, getState, extra) => {
-      try {
-        dispatch(actions.start())
-        const result = await runFn(dispatch, getState, extra)
+    try {
+      const result = await fetcherObject.run(
+        dispatch,
+        getState,
+        extra,
+        beforeResult,
+      )
 
-        dispatch(actions.finish())
-        return result
+      dispatch(actions.finish())
+      return result
+    } catch (error) {
+      if (fetcherObject.fail) {
+        fetcherObject.fail(error, dispatch, getState, extra, beforeResult)
       }
-      catch (error) {
-        dispatch(actions.fail(error))
+
+      dispatch(
+        actions.fail(
+          fetcherObject.prepareError
+            ? fetcherObject.prepareError(error)
+            : error,
+        ),
+      )
+
+      if (fetcherObject.noThrow) {
         return undefined
       }
+
+      throw error
     }
-  )
+  }
+
+  const handleFnFetching = (actions, runFn) => async (
+    dispatch,
+    getState,
+    extra,
+  ) => {
+    try {
+      dispatch(actions.start())
+      const result = await runFn(dispatch, getState, extra)
+
+      dispatch(actions.finish())
+      return result
+    } catch (error) {
+      dispatch(actions.fail(error))
+      return undefined
+    }
+  }
 
   const handleFetchingF = deprecate.method(
-    'handleFetchingF is deprecated. Use handleFnFetching',
+    "handleFetchingF is deprecated. Use handleFnFetching",
     console.log, // eslint-disable-line no-console
-    handleFnFetching
+    handleFnFetching,
   )
 
   return {

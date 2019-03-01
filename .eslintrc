@@ -1,3 +1,7 @@
 {
-  "extends": "@atomix/eslint-config"
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "warn"
+  }
 }
