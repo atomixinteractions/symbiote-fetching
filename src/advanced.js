@@ -1,4 +1,3 @@
-const deprecate = require("deprecated")
 const { fetchStatus } = require("./status")
 
 /**
@@ -122,17 +121,10 @@ function createSymbioteFetcher({
     }
   }
 
-  const handleFetchingF = deprecate.method(
-    "handleFetchingF is deprecated. Use handleFnFetching",
-    console.log, // eslint-disable-line no-console
-    handleFnFetching,
-  )
-
   return {
     initialFetching,
     createFetching,
     handleFetching,
-    handleFetchingF,
     handleFnFetching,
   }
 }

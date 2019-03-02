@@ -47,6 +47,7 @@
     "@babel/preset-env": "^7.3.4",
     "ava": "^1.2.1",
     "coveralls": "^3.0.3",
+    "deprecated": "0.0.2",
     "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.1.0",
@@ -56,7 +57,5 @@
     "prettier": "^1.16.4",
     "redux-symbiote": "^3.0.2"
   },
-  "dependencies": {
-    "deprecated": "0.0.2"
-  }
+  "dependencies": {}
 }

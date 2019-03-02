@@ -7,12 +7,10 @@ const {
 } = require("./status")
 const { createSymbioteFetcher } = require("./advanced")
 
-// TODO: remove deprecated handleFetchingF
 const {
   initialFetching,
   createFetching,
   handleFetching,
-  handleFetchingF,
   handleFnFetching,
 } = createSymbioteFetcher()
 
@@ -22,7 +20,6 @@ module.exports = {
   initialFetching,
   createFetching,
   handleFetching,
-  handleFetchingF,
   handleFnFetching,
   isReady,
   isFailed,
