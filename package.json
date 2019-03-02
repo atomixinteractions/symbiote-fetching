@@ -1,6 +1,6 @@
 {
   "name": "symbiote-fetching",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Reduce boilerplate with fetch actions",
   "main": "lib/index.js",
   "module": "lib/index.js",
