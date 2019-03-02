@@ -55,6 +55,8 @@
     "eslint-plugin-prettier": "^3.0.1",
     "nyc": "^13.3.0",
     "prettier": "^1.16.4",
+    "redux": "^4.0.1",
+    "redux-execute": "^2.0.1",
     "redux-symbiote": "^3.0.2"
   },
   "dependencies": {}

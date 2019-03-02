@@ -1,18 +1,14 @@
 import test from "ava"
-import { createSymbiote } from "redux-symbiote"
 import {
-  createFetching,
   fetchStatus,
-  handleFetching,
-  initialFetching,
   isReady,
   isFailed,
   isInitial,
   isLoading,
 } from "../src/index"
 
-test("fetching status different", (t) => {
-  const values = Object.values(initialFetching)
+test("fetch status should be different", (t) => {
+  const values = Object.values(fetchStatus)
   const unique = [...new Set(values)]
 
   t.is(values.length, unique.length)
