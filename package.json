@@ -60,7 +60,6 @@
     "redux-symbiote": "^3.0.2"
   },
   "dependencies": {
-    "ramda.assocpath": "^0.26.1",
-    "ramda.path": "^0.26.1"
+    "ramda.assocpath": "^0.26.1"
   }
 }
