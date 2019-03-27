@@ -1,4 +1,8 @@
+const assocPath = require("ramda.assocpath")
 const { fetchStatus } = require("./status")
+
+const buildPathForRamda = (path = "", computedData, state) =>
+  assocPath(path.split("."), computedData, state)
 
 /**
  * @typedef {Object} Action
@@ -28,19 +32,25 @@ function createSymbioteFetcher({
    *   fetching: createFetching('status'),
    * })
    */
-  const createFetching = (stateProperty) => ({
-    start: (state) => ({
-      ...state,
-      [stateProperty]: { [propStatus]: fetchStatus.loading, [propError]: null },
-    }),
-    finish: (state) => ({
-      ...state,
-      [stateProperty]: { [propStatus]: fetchStatus.ready, [propError]: null },
-    }),
-    fail: (state, error) => ({
-      ...state,
-      [stateProperty]: { [propStatus]: fetchStatus.failed, [propError]: error },
-    }),
+  const createFetching = (path) => ({
+    start: (state) =>
+      buildPathForRamda(
+        path,
+        { [propStatus]: fetchStatus.loading, [propError]: null },
+        state,
+      ),
+    finish: (state) =>
+      buildPathForRamda(
+        path,
+        { [propStatus]: fetchStatus.ready, [propError]: null },
+        state,
+      ),
+    fail: (state, error) =>
+      buildPathForRamda(
+        path,
+        { [propStatus]: fetchStatus.failed, [propError]: error },
+        state,
+      ),
   })
 
   /**

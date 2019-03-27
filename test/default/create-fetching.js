@@ -88,3 +88,33 @@ test("symbiote correctly updates state", (t) => {
     fetching: { status: fetchStatus.failed, error: "SOME_ERROR" },
   })
 })
+
+test("symbiote correctly updates nested state", (t) => {
+  const initial = {
+    fetching: {
+      news: initialFetching,
+    },
+  }
+  const symbiotes = {
+    fetch: createFetching("fetching.news"),
+  }
+  const { actions, reducer } = createSymbiote(initial, symbiotes)
+
+  t.deepEqual(reducer(initial, actions.fetch.start()), {
+    fetching: {
+      news: { status: fetchStatus.loading, error: null },
+    },
+  })
+
+  t.deepEqual(reducer(initial, actions.fetch.finish()), {
+    fetching: {
+      news: { status: fetchStatus.ready, error: null },
+    },
+  })
+
+  t.deepEqual(reducer(initial, actions.fetch.fail("SOME_ERROR")), {
+    fetching: {
+      news: { status: fetchStatus.failed, error: "SOME_ERROR" },
+    },
+  })
+})

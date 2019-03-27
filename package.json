@@ -59,5 +59,8 @@
     "redux-execute": "^2.0.1",
     "redux-symbiote": "^3.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ramda.assocpath": "^0.26.1",
+    "ramda.path": "^0.26.1"
+  }
 }
