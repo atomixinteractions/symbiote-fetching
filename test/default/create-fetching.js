@@ -107,7 +107,7 @@ test("symbiote correctly updates state", (t) => {
 })
 
 test("symbiote correctly updates random deep", (t) => {
-  const lvl = Math.floor(Math.random() * 20)
+  const lvl = Math.floor(Math.random() * 20) || 1
   const path = Array.from({ length: lvl + 1 }, (_, i) => i)
     .reverse()
     .join(".")
