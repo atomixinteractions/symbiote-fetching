@@ -10,6 +10,23 @@ const create = () => {
   }
 }
 
+const createDeepState = (lvl = 1, lastValue = initialFetching) => {
+  const state = {}
+  let prevLvl = state
+
+  for (let i = lvl; i >= 0; i -= 1) {
+    if (i === 0) {
+      prevLvl[i] = lastValue
+      prevLvl = prevLvl[i]
+    } else {
+      prevLvl[i] = {}
+      prevLvl = prevLvl[i]
+    }
+  }
+
+  return state
+}
+
 test("createFetching should provide 3 actions", (t) => {
   const { fetching } = create()
 
@@ -87,4 +104,31 @@ test("symbiote correctly updates state", (t) => {
   t.deepEqual(reducer(initial, actions.fetch.fail("SOME_ERROR")), {
     fetching: { status: fetchStatus.failed, error: "SOME_ERROR" },
   })
+})
+
+test("symbiote correctly updates random deep", (t) => {
+  const lvl = Math.floor(Math.random() * 20) || 1
+  const path = Array.from({ length: lvl + 1 }, (_, i) => i)
+    .reverse()
+    .join(".")
+  const initial = createDeepState(lvl)
+  const symbiotes = {
+    fetch: createFetching(path),
+  }
+  const { actions, reducer } = createSymbiote(initial, symbiotes)
+
+  t.deepEqual(
+    reducer(initial, actions.fetch.start()),
+    createDeepState(lvl, { status: fetchStatus.loading, error: null }),
+  )
+
+  t.deepEqual(
+    reducer(initial, actions.fetch.finish()),
+    createDeepState(lvl, { status: fetchStatus.ready, error: null }),
+  )
+
+  t.deepEqual(
+    reducer(initial, actions.fetch.fail("SOME_ERROR")),
+    createDeepState(lvl, { status: fetchStatus.failed, error: "SOME_ERROR" }),
+  )
 })
